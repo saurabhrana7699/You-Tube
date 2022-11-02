@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/c5f8ebecb7.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>You Tube</title>
+    <style>
+      * {
+        background-color: #0f0f0f;
+      }
+
+      #navbar {
+        display: flex;
+        width: 100%;
+        height: 50px;
+        /* border: 1px solid red; */
+      }
+      #search {
+        margin-top: 10px;
+        font-size: 30px;
+        margin-left: 15px;
+        color: white;
+      }
+      #search:hover {
+        font-size: 35px;
+      }
+      #type {
+        width: 550px;
+        height: 40px;
+        margin-left: 280px;
+        margin-top: 5px;
+        color: black;
+        font-size: 20px;
+        background-color: white;
+        border-radius: 50px;
+      }
+      #hum {
+        font-size: 30px;
+        margin-left: 20px;
+        margin-top: 5px;
+        color: white;
+      }
+      #bell {
+        color: white;
+        font-size: 30px;
+        margin-top: 5px;
+        margin-left: 350px;
+      }
+      #img {
+        margin-left: 100px;
+      }
+      #data {
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(4,330px);
+       
+        gap: 10px;
+        width: 90%;
+      
+        margin-top: 20px;
+      }
+      #data > div {
+        padding: 10px;
+        text-align: center;
+        /* border: 1px solid white; */
+      }
+      #pic {
+        width: 170px;
+        height: 70px;
+      }
+
+      img {
+        width: 100%;
+        border-radius: 5px;
+        height: 170px;
+        /* height: 100%; */
+      }
+      h4,
+      p {
+        color: white;
+      }
+     
+    </style>
+  </head>
+  <body>
+    <div id="navbar">
+      <i class="fa-solid fa-bars" id="hum"></i>
+      <a href="index.html">
+      <div id="pic">
+        <img
+          id="img"
+          style="height: 40px"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkM-HA1TCZ0NeXqiL2YqKi3h2WEPFxD8Vfxg&usqp=CAU"
+          alt=""
+        />
+      </div>
+    </a>
+      <input type="search" id="type" placeholder="Search"/>
+
+      <i class="fa-solid fa-magnifying-glass" id="search"></i>
+
+      <i class="fa-regular fa-bell" id="bell"></i>
+    </div>
+
+    <div id="data">
+
+    </div>
+  </body>
+</html>
+<script>
+  document.querySelector("#search").addEventListener("click", youtube);
+
+  function youtube() {
+    let query = document.querySelector("#type").value;
+    getdata(query);
+  }
+
+  async function getdata(query) {
+    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=40&q=${query}&key=AIzaSyC3LB_LzJD_MZ0byaMUQv4-SCU1-fe9F0g`;
+
+    let res = await fetch(url);
+    let data = await res.json();
+    console.log(data);
+
+    alldeta(data.items);
+  }
+
+  function alldeta(data) {
+    document.querySelector("#data").innerHTML = null;
+    data.forEach(function (elem) {
+      let div = document.createElement("div");
+      div.addEventListener("click", function () {
+        videos(elem);
+      });
+
+      let thumb = document.createElement("img");
+      thumb.setAttribute("id", "Pic");
+      thumb.src = elem.snippet.thumbnails.medium.url;
+
+      let title = document.createElement("p");
+      title.innerText = elem.snippet.title;
+
+      let channelTitle = document.createElement("p");
+      channelTitle.innerText = elem.snippet.channelTitle;
+
+      div.append(thumb, title, channelTitle);
+      document.querySelector("#data").append(div);
+    });
+  }
+
+  still();
+  async function still() {
+    let url =
+      "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=500&q=Hollywood&key=AIzaSyC3LB_LzJD_MZ0byaMUQv4-SCU1-fe9F0g";
+
+    let res = await fetch(url);
+    let data = await res.json();
+    console.log(data);
+    newdata(data.items);
+  }
+
+  function newdata(data) {
+    data.forEach(function (elem) {
+      let div = document.createElement("div");
+      div.addEventListener("click", function () {
+        videos(elem);
+      });
+
+      let thumb = document.createElement("img");
+      thumb.setAttribute("id", "Pic");
+      thumb.src = elem.snippet.thumbnails.medium.url;
+
+      let title = document.createElement("p");
+      title.innerText = elem.snippet.title;
+
+      let channelTitle = document.createElement("p");
+      channelTitle.innerText = elem.snippet.channelTitle;
+
+      div.append(thumb, title, channelTitle);
+      document.querySelector("#data").append(div);
+    });
+  }
+  
+
+  function videos(data) {
+
+    localStorage.setItem("video", JSON.stringify(data));
+    window.location.href = "page2.html";
+  }
+
+  still();
+  async function still() {
+    let url =
+      "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=500&q=Hollywood&key=AIzaSyC3LB_LzJD_MZ0byaMUQv4-SCU1-fe9F0g";
+
+    let res = await fetch(url);
+    let data = await res.json();
+    console.log(data);
+    newdata(data.items);
+  }
+
+  function newdata(data) {
+    data.forEach(function (elem) {
+      let div = document.createElement("div");
+      div.addEventListener("click", function () {
+        videos(elem);
+      });
+
+      let thumb = document.createElement("img");
+      thumb.setAttribute("id", "Pic");
+      thumb.src = elem.snippet.thumbnails.medium.url;
+
+      let title = document.createElement("p");
+      title.innerText = elem.snippet.title;
+
+      let channelTitle = document.createElement("p");
+      channelTitle.innerText = elem.snippet.channelTitle;
+
+      div.append(thumb, title, channelTitle);
+      document.querySelector("#data").append(div);
+    });
+  }
+  
+
+  function videos(data) {
+
+    localStorage.setItem("video", JSON.stringify(data));
+    window.location.href = "page2.html";
+  }
+</script>

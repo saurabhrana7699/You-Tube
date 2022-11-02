@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/c5f8ebecb7.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>video</title>
+    <style>
+      * {
+        background-color: #0f0f0f;
+      }
+      #img {
+        margin-left: 90px;
+      }
+      #pic {
+        width: 170px;
+        height: 70px;
+      }
+      #videos {
+        margin-top: 40px;
+        width: 60%;
+        height: 550px;
+        /* border: 1px solid red; */
+        padding: 20px;
+      }
+
+      #navbar {
+        display: flex;
+        width: 100%;
+        height: 50px;
+        /* border: 1px solid red; */
+      }
+      #search {
+        margin-top: 10px;
+        font-size: 30px;
+        margin-left: 15px;
+        color: white;
+      }
+      #search:hover {
+        font-size: 35px;
+      }
+      #type {
+        width: 550px;
+        height: 40px;
+        margin-left: 280px;
+        margin-top: 5px;
+        color: black;
+        font-size: 20px;
+        background-color: white;
+        border-radius: 5px;
+      }
+      #hum {
+        font-size: 30px;
+        margin-left: 20px;
+        margin-top: 5px;
+        color: white;
+      }
+      #bell {
+        color: white;
+        font-size: 30px;
+        margin-top: 5px;
+        margin-left: 350px;
+      }
+     
+      #things{
+        border: 1px solid green;
+        width: 100%;
+        height: 100px;
+        /* background-color: white; */
+      }
+      #flexmain{
+        display: flex;
+      }
+      #trends{
+        margin-top: 40px;
+        width: 35%;
+        /* height: 100px; */
+        /* border: 1px solid green; */
+      }
+      p,h3{
+        color: white;
+      }
+      #Pic{
+        margin-top: 20px;
+       width: 250px;
+       height: 150px;
+      }
+      #setdiv{
+        display: flex;
+        gap: 20px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="navbar">
+      <i class="fa-solid fa-bars" id="hum"></i>
+      <a href="index.html">
+        <div id="pic">
+          <img
+            id="img"
+            style="height: 40px"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkM-HA1TCZ0NeXqiL2YqKi3h2WEPFxD8Vfxg&usqp=CAU"
+            alt=""
+          />
+        </div>
+      </a>
+
+      <input type="search" id="type" />
+
+      <i class="fa-solid fa-magnifying-glass" id="search"></i>
+
+      <i class="fa-regular fa-bell" id="bell"></i>
+    </div>
+
+  <div id="flexmain">
+     <div id="videos">
+      <iframe
+        width="100%"
+        height="100%"
+        id="play"
+       
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div> -->
+    <div id="trends">
+
+    </div>
+
+  </div>
+
+    
+  </body>
+</html>
+
+<script>
+ 
+  playvideo();
+
+  function playvideo() {
+    let video = JSON.parse(localStorage.getItem("video")) ;
+  
+    console.log(video);
+    
+   let playvideo = document.querySelector("#play")
+  let id = video.id.videoId
+   playvideo.src = `https://www.youtube.com/embed/${id}`
+   
+  }
+
+
+  still();
+  async function still() {
+    let url =
+      "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=100&q=trending&key=AIzaSyC3LB_LzJD_MZ0byaMUQv4-SCU1-fe9F0g";
+
+    let res = await fetch(url);
+    let data = await res.json();
+    console.log(data);
+    newdata(data.items);
+  }
+
+  function newdata(data) {
+    data.forEach(function (elem) {
+      let div = document.createElement("div");
+      div.setAttribute("id","setdiv")
+      div.addEventListener("click", function () {
+        videos(elem);
+      });
+
+      let thumb = document.createElement("img");
+      thumb.setAttribute("id", "Pic");
+      thumb.src = elem.snippet.thumbnails.medium.url;
+
+      let title = document.createElement("h3");
+      title.innerText = elem.snippet.title;
+
+      // let channelTitle = document.createElement("p");
+      // channelTitle.innerText = elem.snippet.channelTitle;
+
+      div.append(thumb, title);
+      document.querySelector("#trends").append(div);
+    });
+  }
+  
+  function videos(data) {
+
+localStorage.setItem("video", JSON.stringify(data));
+window.location.href = "page2.html";
+}
+
+  
+</script>
